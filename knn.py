@@ -37,21 +37,14 @@ x_test = pd.DataFrame(x_test_scaled)
 
 import genetic_algorithm_knn as GA
 
-num_weights = 6
-
-"""
-Genetic algorithm parameters:
-    Mating pool size
-    Population size
-"""
-sol_per_pop = 4
+population_size = 4
 num_parents_mating = 2
+num_generations = 6
 
-population_size = 6
 #Creating the initial population.
-new_population = list(np.random.randint(low=0, high=20, size=population_size))
+new_population = list(np.random.randint(low=1, high=20, size=population_size))
 
-num_generations = 10
+last_values = []
 for generation in range(num_generations):
     print("\nGeneration : ", generation)
     print(new_population)
@@ -68,9 +61,15 @@ for generation in range(num_generations):
     # Adding some variations to the offsrping using mutation.
     offspring_mutation = GA.mutation(offspring_crossover)
 
+    best_element = new_population[fitness.index(min(fitness))]
     # The best result in the current iteration.
     print("Best result : ", str(min(fitness)))
-    print("Best result : ", str(new_population[fitness.index(min(fitness))]))
+    print("Best element : ", str(best_element))
+
+    # save last values
+    last_values.append(new_population[fitness.index(min(fitness))])
+    if (len(last_values) > 5) and ([best_element]*3 == last_values[-3:]):
+        break
 
     # Creating the new population based on the parents and offspring.
     new_population = parents

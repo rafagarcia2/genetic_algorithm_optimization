@@ -54,6 +54,6 @@ def mutation(offspring_crossover):
 
     if offspring_crossover > 20:
         return 20
-    elif offspring_crossover < 0:
-        return 0
+    elif offspring_crossover < 1:
+        return 1
     return int(offspring_crossover)
