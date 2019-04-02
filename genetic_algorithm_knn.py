@@ -9,8 +9,8 @@ def cal_pop_fitness(population, x_train, y_train, x_test, y_test):
     '''
 
     rmse_val = []
-    for k in population:
-        model = KNeighborsRegressor(n_neighbors = k)
+    for element in population:
+        model = KNeighborsRegressor(n_neighbors = element[0]) #, algorithm=element[1], weights=element[1])
 
         model.fit(x_train, y_train)  #fit the model
         pred=model.predict(x_test) #make prediction on test set
@@ -40,9 +40,11 @@ def crossover(parents, offspring_size):
 
     #offspring = binarios[0][0:len(binarios[0])//2] + binarios[1][len(binarios[1])//2:]
 
-    offspring = sum(parents) / len(parents)
+    k_parents = [k[0] for k in parents]
+    k = int(sum(k_parents) / len(k_parents))
+    offspring = (k, parents[0][1], parents[1][2])
 
-    return int(offspring)
+    return offspring
 
 def mutation(offspring_crossover):
     '''
@@ -50,10 +52,11 @@ def mutation(offspring_crossover):
     '''
     
     number = np.random.randint(low=-3, high=3, size=1)
-    offspring_crossover += number
+    k = int(offspring_crossover[0] + number)
+    crossover = (k, offspring_crossover[1], offspring_crossover[2])
 
-    if offspring_crossover > 20:
-        return 20
-    elif offspring_crossover < 1:
-        return 1
-    return int(offspring_crossover)
+    if crossover[0] > 20:
+        return (20, crossover[1], crossover[2])
+    elif crossover[0] < 1:
+        return (1, crossover[1], crossover[2])
+    return crossover

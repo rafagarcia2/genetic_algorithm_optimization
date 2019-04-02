@@ -43,6 +43,17 @@ num_generations = 6
 
 #Creating the initial population.
 new_population = list(np.random.randint(low=1, high=20, size=population_size))
+algorithms = ['auto', 'ball_tree', 'kd_tree', 'brute']
+weights = ['uniform', 'distance']
+
+k_neighboars = list(np.random.randint(low=1, high=20, size=population_size))
+index_algorithms = list(np.random.randint(low=0, high=3, size=population_size))
+index_weights = list(np.random.randint(low=0, high=1, size=population_size))
+
+new_population = []
+for i in range(population_size):
+    element = (k_neighboars[i], algorithms[index_algorithms[i]], weights[index_weights[i]])
+    new_population.append(element)
 
 last_values = []
 for generation in range(num_generations):
@@ -84,4 +95,4 @@ fitness = GA.cal_pop_fitness(new_population, x_train, y_train, x_test, y_test)
 # The best result in the current iteration.
 print("Population: " + str(new_population))
 print("Best result : ", str(min(fitness)))
-print("Best result : ", str(new_population[fitness.index(min(fitness))]))
+print("Best element : ", str(new_population[fitness.index(min(fitness))]))
