@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-df = pd.read_csv('Train_UWu5bXk.csv')
-print(df.head())
+df = pd.read_csv('data/Train_UWu5bXk.csv')
+# print(df.head())
 
 #Limpando
 df.isnull().sum()
